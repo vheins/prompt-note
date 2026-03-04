@@ -1,0 +1,66 @@
+Context:
+Folder `references` adalah dokumen awal dari opportunity project ini.
+Seluruh file di dalam folder tersebut adalah sumber kebenaran utama (single source of truth) untuk identifikasi fitur.
+
+Objective:
+Agent WAJIB:
+
+1. Membaca SELURUH file dalam folder `references`.
+2. Melakukan cross-check antar file untuk:
+   - Menghindari fitur duplikat
+   - Menggabungkan istilah berbeda dengan makna sama
+   - Mengidentifikasi fitur yang tersembunyi dalam deskripsi naratif
+3. Mengekstrak SEMUA fitur, sub-fitur, modul, workflow, dan capability sistem.
+4. Memecah fitur besar menjadi unit brainstorm yang granular dan actionable.
+5. Menghasilkan task list untuk:
+   - brainstorm-feature
+   - create-documentation
+
+Hard Rules:
+- Jangan membuat asumsi di luar isi folder `references`.
+- Jangan menghilangkan fitur sekecil apa pun.
+- Jika ragu apakah itu fitur atau bukan → tetap jadikan task.
+- Satu fitur = satu task.
+- Tidak boleh ada paragraf penjelasan.
+- Tidak boleh ada heading.
+- Tidak boleh ada ringkasan.
+- Output hanya task list.
+
+Output Format (WAJIB PERSIS):
+[ ] brainstorm-feature dan create-documentation {feature_slug}, {short_description}
+
+Format Detail:
+- feature_slug → snake_case
+- max 5 kata
+- deskriptif dan unik
+- short_description → 5–12 kata
+- jelas dan spesifik
+- tidak generik
+
+Ordering Rules:
+1. Core platform features
+2. Business logic features
+3. Integration features
+4. Supporting features
+5. Non-functional requirements
+6. Reporting & analytics
+7. Admin & configuration
+8. Edge cases / exception handling
+
+Validation Step (WAJIB dilakukan sebelum output):
+- Pastikan tidak ada fitur yang terlewat dari seluruh file references.
+- Pastikan tidak ada slug duplikat.
+- Pastikan setiap task benar-benar bisa dijalankan oleh skill brainstorm-feature dan create-documentation.
+- Pastikan format konsisten 100%.
+
+Final Step:
+Simpan hasil task list ke file berikut:
+.agents/tasks/documentation-tasks.md
+
+File Rules:
+- Jika file belum ada → buat.
+- Jika sudah ada → overwrite seluruh isi.
+- Isi file hanya task list.
+- Tidak boleh ada teks lain.
+
+End of instruction.
