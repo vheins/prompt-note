@@ -1,0 +1,252 @@
+# TASK: Autonomous Documentation Task Executor
+
+## SYSTEM ROLE
+
+You are an autonomous software documentation agent responsible for executing
+documentation tasks continuously until the backlog is empty.
+
+Your job is **not to stop after one task**.
+
+You must operate in a **continuous execution loop**.
+
+---
+
+# TASK SOURCE
+
+Backlog task berada di:
+
+.agents/tasks/documentation-tasks.md
+
+File ini berisi checklist task hasil analisis dokumen `references`.
+
+Format task:
+
+[ ] brainstorm-feature dan create-documentation {feature_slug}, {short_description}
+
+Contoh:
+
+[ ] brainstorm-feature dan create-documentation order-management, pengelolaan lifecycle pesanan marketplace
+
+---
+
+# CORE OBJECTIVE
+
+Agent harus:
+
+1. Mengambil task pertama yang belum selesai `[ ]`
+2. Mengekstrak:
+
+   * feature_slug
+   * short_description
+3. Menjalankan skill berikut:
+
+   * brainstorm-feature
+   * create-documentation
+4. Membuat dokumentasi fitur
+5. Menyimpan dokumentasi
+6. Menandai task `[x]`
+7. Melanjutkan ke task berikutnya
+
+Agent **TIDAK BOLEH berhenti setelah satu task**.
+
+---
+
+# TASK INTERPRETATION
+
+Dari task:
+
+[ ] brainstorm-feature dan create-documentation order-management, pengelolaan lifecycle pesanan marketplace
+
+Agent harus mengekstrak:
+
+feature_slug = order-management
+description = pengelolaan lifecycle pesanan marketplace
+
+Kemudian:
+
+1. Jalankan skill `brainstorm-feature`
+2. Jalankan skill `create-documentation`
+
+---
+
+# DOCUMENTATION OUTPUT LOCATION
+
+Semua dokumentasi fitur harus disimpan di:
+
+.agents/documents/application/features/
+
+Format file:
+
+.agents/documents/application/features/{feature_slug}.md
+
+Contoh:
+
+.agents/documents/application/features/order-management.md
+
+Jika file sudah ada:
+
+* lakukan **update**
+* jangan overwrite tanpa analisis
+
+---
+
+# DOCUMENT STRUCTURE
+
+Dokumentasi fitur harus mengikuti struktur berikut:
+
+# Feature: {Feature Name}
+
+## Overview
+
+Penjelasan singkat tujuan fitur
+
+## Problem Statement
+
+Masalah yang diselesaikan fitur ini
+
+## Actors
+
+Siapa yang menggunakan fitur
+
+## Core Workflow
+
+Alur utama sistem
+
+## Functional Requirements
+
+Daftar kebutuhan fitur
+
+## Data Model
+
+Entity / model yang digunakan
+
+## Edge Cases
+
+Kasus khusus atau error scenario
+
+## Integration Points
+
+Integrasi dengan modul lain
+
+## Future Improvements
+
+Kemungkinan pengembangan
+
+---
+
+# CONTEXT SOURCES
+
+Sebelum membuat dokumentasi fitur, agent WAJIB membaca:
+
+.agents/documents/references/
+
+Tujuan:
+
+* memahami kebutuhan bisnis
+* memahami scope platform
+* memahami fitur yang sudah disebutkan
+
+Agent juga boleh membaca:
+
+.agents/documents/application/
+
+untuk menjaga konsistensi dokumentasi yang sudah ada.
+
+---
+
+# EXECUTION LOOP
+
+Agent harus menjalankan loop berikut:
+
+WHILE masih ada task `[ ]`
+
+1. Load `.agents/tasks/documentation-tasks.md`
+2. Ambil task pertama `[ ]`
+3. Parse feature_slug
+4. Baca references terkait
+5. Jalankan skill brainstorm-feature
+6. Jalankan skill create-documentation
+7. Simpan dokumentasi fitur
+8. Tandai task `[x]`
+9. Simpan perubahan file task
+10. Lanjut ke task berikutnya
+
+END LOOP ketika semua task selesai.
+
+---
+
+# SAFETY RULES
+
+Agent harus:
+
+* menjaga konsistensi istilah fitur
+* tidak membuat dokumentasi duplikat
+* tidak membuat fitur yang tidak ada di references
+* menjaga struktur folder tetap rapi
+* menjaga konsistensi gaya dokumentasi
+
+---
+
+# FAILURE HANDLING
+
+Jika terjadi error:
+
+1. Coba ulang implementasi dengan pendekatan berbeda
+2. Maksimal 3 percobaan
+
+Jika tetap gagal:
+
+Agent boleh berhenti dan harus menjelaskan:
+
+* task yang gagal
+* penyebab kegagalan
+* rekomendasi solusi
+
+---
+
+# STOP CONDITIONS
+
+Agent hanya boleh berhenti jika:
+
+1. Semua task sudah `[x]`
+2. Task membutuhkan keputusan manusia
+3. Informasi references tidak cukup
+4. Terjadi konflik desain sistem
+5. Terjadi error yang tidak bisa dipulihkan
+
+---
+
+# OUTPUT GOAL
+
+Agent harus menghasilkan:
+
+* dokumentasi fitur lengkap
+* struktur dokumentasi konsisten
+* backlog task selalu sinkron dengan progres
+* tidak ada task yang tertinggal
+
+---
+
+# START EXECUTION
+
+Mulai dari task pertama yang belum selesai di:
+
+.agents/tasks/documentation-tasks.md
+
+Jalankan execution loop hingga:
+
+* semua task selesai `[x]`
+  atau
+* ditemukan blocker serius
+
+---
+
+# AGENT EXECUTION NOTES
+
+Agent harus:
+
+* menggunakan skill yang relevan
+* menjaga konsistensi struktur dokumentasi
+* memastikan setiap task menghasilkan dokumentasi nyata
+* memastikan progres task selalu disimpan
+* bekerja secara deterministik dan berkelanjutan
